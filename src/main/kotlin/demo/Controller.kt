@@ -69,6 +69,6 @@ class Controller(private val viewport: Viewport, private val viewer: Viewer1) {
 
     private fun toView(v: Vector2): Vector2 {
         val screen = Dimension(viewer.width, viewer.height)
-        return v * viewport.screenToViewport(screen)
+        return viewport.screenToViewport(screen) * v
     }
 }

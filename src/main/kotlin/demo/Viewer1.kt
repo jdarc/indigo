@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Jean d'Arc.
+ * Copyright © 2022. Jean d'Arc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
  * and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -174,6 +174,9 @@ class Viewer1 : Canvas(), Viewer {
         if (bufferStrategy.contentsLost()) return
 
         val g = bufferStrategy.drawGraphics as Graphics2D
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON)
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED)
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR)
         g.font = font
 
         bitmap.draw(g, 0, 0, width, height)
@@ -187,7 +190,7 @@ class Viewer1 : Canvas(), Viewer {
         val used = humanReadableByteCount(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())
         g.drawString("Memory: $used of ${total}M", 20, 48)
 
-        val (x, y) = Vector2(controller.x, controller.y) * viewport.screenToViewport(bitmap.size)
+        val (x, y) = viewport.screenToViewport(bitmap.size) * Vector2(controller.x, controller.y)
         g.drawString("X: $x", 20, 78)
         g.drawString("Y: $y", 20, 104)
 

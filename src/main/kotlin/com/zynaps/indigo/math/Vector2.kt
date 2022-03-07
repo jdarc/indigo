@@ -44,12 +44,6 @@ data class Vector2(val x: Float, val y: Float) {
 
     operator fun times(rhs: Vector2) = Vector2(x * rhs.x, y * rhs.y)
 
-    operator fun times(rhs: Transform): Vector2 {
-        val tx = (rhs.m00 * x) + (rhs.m01 * y) + rhs.m02
-        val ty = (rhs.m10 * x) + (rhs.m11 * y) + rhs.m12
-        return Vector2(tx, ty)
-    }
-
     operator fun div(rhs: Float) = Vector2(x / rhs, y / rhs)
 
     operator fun div(rhs: Vector2) = Vector2(x / rhs.x, y / rhs.y)
@@ -70,6 +64,15 @@ data class Vector2(val x: Float, val y: Float) {
         val NEGATIVE_INFINITY = Vector2(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY)
 
         fun min(v1: Vector2, v2: Vector2) = Vector2(min(v1.x, v2.x), min(v1.y, v2.y))
+
         fun max(v1: Vector2, v2: Vector2) = Vector2(max(v1.x, v2.x), max(v1.y, v2.y))
+
+        fun perpendicular(v: Vector2) = Vector2(v.y, -v.x)
+
+        fun normalize(v: Vector2) = v / v.length
+
+        fun distance(v1: Vector2, v2: Vector2) = (v2 - v1).length
+
+        fun distanceSq(v1: Vector2, v2: Vector2) = (v2 - v1).lengthSquared
     }
 }

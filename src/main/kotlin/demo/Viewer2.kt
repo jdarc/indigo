@@ -72,12 +72,13 @@ class Viewer2 : Canvas(), Viewer {
 //            path.append(Ellipse2D.Float(it.x - 3, it.y - 3, 6f, 6f), false)
 //        }
 //        g.fill(path)
-
+//
         g.paint = Color.GREEN
         path.reset()
         path.moveTo(hull.first().x, hull.first().y)
         hull.drop(1).forEach { v -> path.lineTo(v.x, v.y) }
         path.closePath()
+
         g.draw(path)
         g.paint = Color.YELLOW
         path.reset()
@@ -86,9 +87,9 @@ class Viewer2 : Canvas(), Viewer {
 
         g.paint = Color.ORANGE
         path.reset()
-        raceTrack.forEachIndexed { i, v ->
-            val x = v.x * 1.1f
-            val y = v.y * 1.1f
+        splines.forEachIndexed { i, v ->
+            val x = v.x * 1f
+            val y = v.y * 1f
             if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
         }
         g.draw(path)
@@ -105,29 +106,30 @@ class Viewer2 : Canvas(), Viewer {
     }
 
     private fun regenerate() {
-        vertices.clear()
         val rng = Random(System.nanoTime())
-        var ang = 0f
-        val steps = 20
-        val dir = if (rng.nextDouble() > 0.5) -1.0 else 1.0
-        val arc = (360.0 / steps * dir).toFloat()
-        for (i in 0 until steps) {
-            vertices.add(Vector2(rng.nextDouble(20.0, 400.0).toFloat(), 0f) * Transform.rotation(ang))
-            ang += arc
-        }
-        indices = Polygon.triangulate(vertices)
-        hull = Polygon.computeHull(vertices).map { vertices[it] }
-        splines = CatmullRom.subdivide(hull, 16, true)
+
+//        vertices.clear()
+//        var ang = 0f
+//        val steps = 20
+//        val dir = if (rng.nextDouble() > 0.5) -1.0 else 1.0
+//        val arc = (360.0 / steps * dir).toFloat()
+//        for (i in 0 until steps) {
+//            vertices.add(Transform.rotation(ang) * Vector2(rng.nextDouble(20.0, 400.0).toFloat(), 0f))
+//            ang += arc
+//        }
+//        indices = Polygon.triangulate(vertices)
+//        hull = Polygon.computeHull(vertices).map { vertices[it] }
+//        splines = CatmullRom.subdivide(hull, true)
 
         vertices.clear()
-        for (i in 0 until 10) {
+        for (i in 0 until 20) {
             val x = rng.nextDouble(-250.0, 250.0).toFloat()
             val y = rng.nextDouble(-250.0, 250.0).toFloat()
             vertices.add(Vector2(x, y))
         }
 
-        hull = Polygon.computeHull(vertices).map { vertices[it] }
-        hull = RaceTrack.jitter(hull)
-        raceTrack = RaceTrack.generate(hull)
+        val pair = RaceTrack.generate(vertices)
+        hull = pair.first
+        splines = pair.second
     }
 }

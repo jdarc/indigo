@@ -36,7 +36,7 @@ class MainFrame : Frame("Indigo"), AWTEventListener {
 
     init {
         layout = BorderLayout()
-        viewer = Viewer2()
+        viewer = Viewer3()
         ignoreRepaint = true
         background = viewer.background
         iconImage = ImageIcon(javaClass.getResource("/icon.png")).image
@@ -48,7 +48,7 @@ class MainFrame : Frame("Indigo"), AWTEventListener {
         val mask = AWTEvent.MOUSE_WHEEL_EVENT_MASK or AWTEvent.MOUSE_EVENT_MASK or AWTEvent.MOUSE_MOTION_EVENT_MASK or AWTEvent.KEY_EVENT_MASK or AWTEvent.WINDOW_EVENT_MASK
         Toolkit.getDefaultToolkit().addAWTEventListener(this, mask)
 
-        timer = Timer(30) {
+        timer = Timer(60) {
             val elapsed = (System.nanoTime() - tock) / 1000000.0
             tock = System.nanoTime()
             viewer.update(elapsed / 1000.0)

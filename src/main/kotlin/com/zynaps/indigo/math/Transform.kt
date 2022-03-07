@@ -69,6 +69,12 @@ data class Transform(val m00: Float, val m10: Float, val m01: Float, val m11: Fl
         return Transform(t00, t10, t01, t11, t02, t12)
     }
 
+    operator fun times(rhs: Vector2): Vector2 {
+        val x = m00 * rhs.x + m01 * rhs.y + m02
+        val y = m10 * rhs.x + m11 * rhs.y + m12
+        return Vector2(x, y)
+    }
+
     fun equals(rhs: Transform, epsilon: Float = EPSILON): Boolean {
         return equals(m00, rhs.m00, epsilon) && equals(m01, rhs.m01, epsilon) &&
                equals(m02, rhs.m02, epsilon) && equals(m10, rhs.m10, epsilon) &&
