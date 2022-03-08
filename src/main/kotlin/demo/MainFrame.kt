@@ -36,7 +36,7 @@ class MainFrame : Frame("Indigo"), AWTEventListener {
 
     init {
         layout = BorderLayout()
-        viewer = Viewer3()
+        viewer = Viewer2()
         ignoreRepaint = true
         background = viewer.background
         iconImage = ImageIcon(javaClass.getResource("/icon.png")).image
